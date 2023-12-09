@@ -8,6 +8,8 @@ import java.util.Optional;
 
 import com.devsuperior.dsmeta.dto.SaleReportDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.devsuperior.dsmeta.dto.SaleMinDTO;
@@ -28,14 +30,13 @@ public class SaleService {
 		return new SaleMinDTO(entity);
 	}
 
-	public List<SaleReportDTO> findSaleReport(String minDate, String maxDate, String name) {
+	public Page<SaleReportDTO> findSaleReport(String minDate, String maxDate, String name, Pageable pageable) {
 		if (minDate.isBlank())
 			minDate = dataAtual.minusYears(1L).toString();
 
 		if (maxDate.isBlank())
 			maxDate = dataAtual.toString();
 
-		List<SaleReportDTO> result = repository.findSaleReport(LocalDate.parse(minDate), LocalDate.parse(maxDate), name);
-		return result;
+        return repository.findSaleReport(LocalDate.parse(minDate), LocalDate.parse(maxDate), name, pageable);
 	}
 }
