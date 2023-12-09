@@ -3,10 +3,10 @@ package com.devsuperior.dsmeta.services;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.List;
 import java.util.Optional;
 
 import com.devsuperior.dsmeta.dto.SaleReportDTO;
+import com.devsuperior.dsmeta.dto.SalesSummaryBySellerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,12 +31,23 @@ public class SaleService {
 	}
 
 	public Page<SaleReportDTO> findSaleReport(String minDate, String maxDate, String name, Pageable pageable) {
-		if (minDate.isBlank())
-			minDate = dataAtual.minusYears(1L).toString();
-
-		if (maxDate.isBlank())
-			maxDate = dataAtual.toString();
+		minDate = atribuiNovaDataSeDataForEmBranco(minDate,dataAtual.minusYears(1L).toString());
+		maxDate = atribuiNovaDataSeDataForEmBranco(maxDate, dataAtual.toString());
 
         return repository.findSaleReport(LocalDate.parse(minDate), LocalDate.parse(maxDate), name, pageable);
+	}
+
+	public Page<SalesSummaryBySellerDTO> findSalesSummaryBySeller(String minDate, String maxDate, Pageable pageable) {
+		minDate = atribuiNovaDataSeDataForEmBranco(minDate,dataAtual.minusYears(1L).toString());
+		maxDate = atribuiNovaDataSeDataForEmBranco(maxDate, dataAtual.toString());
+
+		return repository.findSumSaleBySeller(LocalDate.parse(minDate), LocalDate.parse(maxDate), pageable);
+	}
+
+	private String atribuiNovaDataSeDataForEmBranco(String data, String novaData){
+		if (data.isBlank())
+			return novaData;
+
+		return data;
 	}
 }
