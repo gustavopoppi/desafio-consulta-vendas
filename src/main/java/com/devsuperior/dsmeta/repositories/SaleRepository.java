@@ -10,6 +10,7 @@ import com.devsuperior.dsmeta.entities.Sale;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
 
@@ -19,5 +20,5 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
             "  AND UPPER(obj.seller.name) LIKE UPPER(CONCAT('%', :name, '%'))")
     Page<SaleReportDTO> findSaleReport(LocalDate minDate, LocalDate maxDate, String name, Pageable pageable);
 
-    Page<SalesSummaryBySellerDTO> findSumSaleBySeller(LocalDate minDate, LocalDate maxDate, Pageable pageable);
+    List<SalesSummaryBySellerDTO> findSumSaleBySeller(LocalDate minDate, LocalDate maxDate);
 }

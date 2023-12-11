@@ -3,6 +3,7 @@ package com.devsuperior.dsmeta.services;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.Optional;
 
 import com.devsuperior.dsmeta.dto.SaleReportDTO;
@@ -37,11 +38,11 @@ public class SaleService {
         return repository.findSaleReport(LocalDate.parse(minDate), LocalDate.parse(maxDate), name, pageable);
 	}
 
-	public Page<SalesSummaryBySellerDTO> findSalesSummaryBySeller(String minDate, String maxDate, Pageable pageable) {
+	public List<SalesSummaryBySellerDTO> findSalesSummaryBySeller(String minDate, String maxDate) {
 		minDate = atribuiNovaDataSeDataForEmBranco(minDate,dataAtual.minusYears(1L).toString());
 		maxDate = atribuiNovaDataSeDataForEmBranco(maxDate, dataAtual.toString());
 
-		return repository.findSumSaleBySeller(LocalDate.parse(minDate), LocalDate.parse(maxDate), pageable);
+		return repository.findSumSaleBySeller(LocalDate.parse(minDate), LocalDate.parse(maxDate));
 	}
 
 	private String atribuiNovaDataSeDataForEmBranco(String data, String novaData){
