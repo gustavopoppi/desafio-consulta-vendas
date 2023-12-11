@@ -1,7 +1,7 @@
 package com.devsuperior.dsmeta.repositories;
 
 import com.devsuperior.dsmeta.dto.SaleReportDTO;
-import com.devsuperior.dsmeta.dto.SalesSummaryBySellerDTO;
+import com.devsuperior.dsmeta.dto.SaleSummaryDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,5 +20,5 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
             "  AND UPPER(obj.seller.name) LIKE UPPER(CONCAT('%', :name, '%'))")
     Page<SaleReportDTO> findSaleReport(LocalDate minDate, LocalDate maxDate, String name, Pageable pageable);
 
-    List<SalesSummaryBySellerDTO> findSumSaleBySeller(LocalDate minDate, LocalDate maxDate);
+    List<SaleSummaryDTO> findSumSaleBySeller(LocalDate minDate, LocalDate maxDate);
 }
