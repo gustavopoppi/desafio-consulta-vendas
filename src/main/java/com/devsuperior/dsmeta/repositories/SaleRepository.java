@@ -20,5 +20,9 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
             "  AND UPPER(obj.seller.name) LIKE UPPER(CONCAT('%', :name, '%'))")
     Page<SaleReportDTO> findSaleReport(LocalDate minDate, LocalDate maxDate, String name, Pageable pageable);
 
+    @Query("SELECT NEW com.devsuperior.dsmeta.dto.SaleSummaryDTO(obj.seller.name, SUM(obj.amount)) " +
+            " FROM Sale obj " +
+            "WHERE obj.date BETWEEN :minDate AND :maxDate " +
+            "GROUP BY obj.seller.name")
     List<SaleSummaryDTO> findSumSaleBySeller(LocalDate minDate, LocalDate maxDate);
 }
